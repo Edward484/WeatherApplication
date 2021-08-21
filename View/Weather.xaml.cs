@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace WeatherApplication.View
 {
     /// <summary>
-    /// Interaction logic for Weather.xaml
+    /// Interaction logic for WeatherWindow.xaml
     /// </summary>
     public partial class Weather : Window
     {
@@ -23,5 +23,6 @@ namespace WeatherApplication.View
         {
             InitializeComponent();
         }
+
     }
 }
