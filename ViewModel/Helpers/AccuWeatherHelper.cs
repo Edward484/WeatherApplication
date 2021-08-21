@@ -6,12 +6,22 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApplication.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WeatherApplication.Model;
+using WeatherApplication.ViewModel.Commands;
+using WeatherApplication.ViewModel.Helpers;
 
 namespace WeatherApplication.ViewModel.Helpers
 {
     class AccuWeatherHelper
     {
-        static string apiKey = "b9nWPQw08NYb7aQiAEAukGWgErATmdd3";
+        static string apiKey = "AHCvs6uGxYcR7dviOuIQbc9hpiwDjG6E";
             //"AHCvs6uGxYcR7dviOuIQbc9hpiwDjG6E";
         static string baseURL = "http://dataservice.accuweather.com/";
         static string locAutoComplete = "locations/v1/cities/autocomplete?apikey={0}&q={1}";
@@ -36,15 +46,19 @@ namespace WeatherApplication.ViewModel.Helpers
         {
             CurrentWeather currentWeather = new();
 
-            string url = baseURL + string.Format(currentConditions, cityKey, apiKey);
-            using (HttpClient client = new())
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()) == false)
             {
-                var response = await client.GetAsync(url);
-                string json = await response.Content.ReadAsStringAsync();
-                currentWeather = (JsonConvert.DeserializeObject<List<CurrentWeather>>(json)).FirstOrDefault();
-            }
 
-            return currentWeather;
+                string url = baseURL + string.Format(currentConditions, cityKey, apiKey);
+                using (HttpClient client = new())
+                {
+                    var response = await client.GetAsync(url);
+                    string json = await response.Content.ReadAsStringAsync();
+                    currentWeather = (JsonConvert.DeserializeObject<List<CurrentWeather>>(json)).First();
+                }
+            }
+                return currentWeather;
+            
         }
         
       

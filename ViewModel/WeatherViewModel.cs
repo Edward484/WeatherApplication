@@ -58,10 +58,12 @@ namespace WeatherApplication.ViewModel
         
         private async void GetCurrentWeather()
         {
-            Query = string.Empty;
-            CurrentWeather = await AccuWeatherHelper.GetCurrentWeatherA(chosenCity.Key);
-            CitiesCollection.Clear();
-
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()) == false)
+            {
+                Query = string.Empty;
+                CurrentWeather = await AccuWeatherHelper.GetCurrentWeatherA(chosenCity.Key);
+                CitiesCollection.Clear();
+            }
         
         }
         
@@ -96,11 +98,14 @@ namespace WeatherApplication.ViewModel
         }
         public async void MakeQuery()
         {
-            List<City> cities = await AccuWeatherHelper.GetCities(Query);
-            CitiesCollection.Clear();
-            foreach(var city in cities)
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()) == false)
             {
-                CitiesCollection.Add(city);
+                CitiesCollection.Clear();
+                List<City> cities = await AccuWeatherHelper.GetCities(Query);
+                foreach (var city in cities)
+                {
+                    CitiesCollection.Add(city);
+                }
             }
         }
 
